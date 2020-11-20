@@ -130,7 +130,7 @@ def mia(nodes, edges, n):
 
     i = 0
     centrality_score = {k: v for k, v in sorted(centrality_score.items(), key=lambda item: item[0])}
-    for node, score in sorted(centrality_score.items(), key=lambda item: item[1], reverse=True):
+    for node, _ in sorted(centrality_score.items(), key=lambda item: item[1], reverse=True):
         if i >= n:
             break
         else:
