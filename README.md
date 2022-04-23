@@ -1,8 +1,8 @@
-# Independent Cascade Model
+# 📡 Independent Cascade Model
 
 This is the Python implement of Independent cascade model. 
 
-## Introduction
+## 💡 Introduction
 
 Spreading through networks are common everywhere, like spread of diseases, viral marketing, news spreading, etc. To simulate the spreading in a network, we have to know the type of model diffusion: 
 
@@ -11,7 +11,7 @@ Spreading through networks are common everywhere, like spread of diseases, viral
 
 **Independent Cascade Model** is one of the most famous and widely researched models, which is a probabilistic model. You may find more detail in the next part. 
 
-## Cascade
+## 📖 Cascade
 
 The independent cascade steps are as following:
 
@@ -40,7 +40,7 @@ We assume that at the first round, node `a` successfully actived `b` and `d`, bu
 
 ![cascade_example_2](imgs/cascade_example.jpeg)
 
-## Influence Maximization
+## 📈 Influence Maximization
 
 Since the cascade algorithm is give, if we want to make our cascading works more efficiently and more effectivly, what we can do is choosing better seeds, i.e. choosing initial active nodes that results in a higher number of ultimate active nodes. 
 
@@ -118,26 +118,20 @@ During this process, there are many other features we should consider, like the 
 
 ![community](imgs/community.jpeg)
 
-## Environment Requirement 
+## 🔧 Environment Requirement 
 
 ```python
-Python Version: 3.6 or later
+Python Version: tested on 3.6, 3.9
 Python Packages required: numpy
 ```
 
-## How to Use
+## 🔦 How to Use
 
 **Step 1**. [Download](https://github.com/cbhua/model-independent-cascade/releases) or [Clone](https://github.com/cbhua/model-independent-cascade.git) the repository; 
 
-**Step 2**. Use the following command to run example 1: `python3 main.py example_set_1.txt --policy 'degree' --threshold 1 --init_rate 0.01`
+**Step 2**. Refer to `notebook/example.ipynb` to check the example of using this repo. 
 
-**Step 3**. Use the following command to run example 2, which is a graph with 75k nodes and 508k edges: `python3 main.py example_set_2.txt  --policy 'degree' --threshold 1 --init_rate 0.01`
-
-**Step 4**. Modify what you want, you can use `python3 main.py --help` to check the parameters. 
-
-Here is a simple explaination:
-
-`python3 main.py dataset [-p][--policy] policy [-t][--threshold] threshold [-r][--init_rate] init_rate`
+**Step 3**. Modify what you want, here are parameters you may want to change in the notebook: 
 
 - `dataset` - the name of dataset file, with the format `int(source node id) \t int(target node id) \n` for each line, i.e. each line is an edge in the graph, from the first integer number (source node id) to the second integer number (target node id), those two integers are splited by `\t`;
 
@@ -147,17 +141,6 @@ Here is a simple explaination:
 
 - `init_rate` - the number of seeds, which is `init_rate * number_of_nodes`, recommend to set it between 0.000 and 0.050, too many initial seeds will extramely increase the amount of calculation. 
 
-## Examples
+## 📚 Other
 
-![run example](imgs/run_example.png)
-
-## Future Works
-
-- [ ] Add images for result
-- [ ] Finish the multi round test tool
-- [ ] Add more api for running in different datasets
-- [ ] Create a pip3 package
-
-## Contact Me
-
-If you find bugs there, or have some questions to discuss, please feel free to open issues or contact me by [email](cbhua@kaist.ac.kr). 
+Any bug report or contribution are welcome!

@@ -1,6 +1,16 @@
 import numpy as np
 
+
 def influence_count(nodes, edges, seeds, threshold):
+    ''' Calculate influent result
+    Args:
+        nodes (list) [#node]: nodes list of the graph;
+        edges (list of list) [#edge, 2]: edges list of the graph;
+        seeds (list) [#seed]: selected seeds;
+        threshold (float): influent threshold, between 0 and 1;
+    Return:
+        final_actived_node (list): list of influent nodes;
+    '''
     in_degree = {}
     inactive_nodes = []
     active_nodes = []
@@ -11,12 +21,10 @@ def influence_count(nodes, edges, seeds, threshold):
             active_nodes.append(edge[0])
         else:
             inactive_nodes.append(edge[0])
-        
         if edge[1] in seeds:
             active_nodes.append(edge[1])
         else:
             inactive_nodes.append(edge[1])
-        
         if edge[1] in in_degree:
             in_degree[edge[1]] += 1
         else:
@@ -37,10 +45,8 @@ def influence_count(nodes, edges, seeds, threshold):
                 if nodes_status[edge[1]] == 0:
                     p = np.array([1 - threshold / in_degree[edge[1]], threshold / in_degree[edge[1]]])
                     flag = np.random.choice([0, 1], p=p.ravel())
-
                     if flag:
                         new_actived_nodes.append(edge[1])
-        
         for node in active_nodes:
             nodes_status[node] = 2
         for node in new_actived_nodes:
@@ -51,5 +57,4 @@ def influence_count(nodes, edges, seeds, threshold):
     for node in nodes:
         if nodes_status[node] == 2:
             final_actived_node += 1
-
     return final_actived_node  
