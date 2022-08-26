@@ -132,9 +132,8 @@ def mia(nodes, edges, n):
     returns: 
         seeds: (list) [#seed]: selected seed nodes index;
     '''
-    theta = 0.1
-    nodes = []
     out_connection = {}
+    in_connection = {}
     centrality_score = {}
     seeds = []
     for edge in edges:
@@ -142,10 +141,13 @@ def mia(nodes, edges, n):
             out_connection[edge[0]].append(edge[1])
         else:
             out_connection[edge[0]] = [edge[1]]
+        if edge[1] in in_connection:
+            in_connection[edge[1]] += 1
+        else:
+            in_connection[edge[1]] = 1
     for node in nodes:
-        centrality_score[node] = mia_centrality(node, out_connection, 0, ap=1, theta=theta)
+        centrality_score[node] = mia_centrality(node, out_connection, in_connection)
     i = 0
-    centrality_score = {k: v for k, v in sorted(centrality_score.items(), key=lambda item: item[0])}
     for node, _ in sorted(centrality_score.items(), key=lambda item: item[1], reverse=True):
         if i >= n:
             break
@@ -155,15 +157,27 @@ def mia(nodes, edges, n):
     return seeds
 
 
-def mia_centrality(node, out_connection, centrality_score, ap, theta):
+def mia_centrality(node, out_connection, in_connection):
     ''' select seeds by mia centrality policy
-    TODO: Experimental.
     '''
-    if node not in out_connection.keys():
-        return 1
-    ap *= 1 / len(out_connection[node])
-    if ap < theta:
-        return 1
-    for sub_node in out_connection[node]:
-        centrality_score += mia_centrality(sub_node, out_connection, centrality_score, ap, theta)
-    return centrality_score
+    theta = 0.5
+    c_score = 0
+    q = 1 # threshold of influence
+    visited = set()
+    path_prob = 1
+    c_score = dfs(visited, out_connection, path_prob, in_connection, node, theta, q)
+    return c_score
+
+def dfs(visited, out_connection, path_prob, in_connection, node, theta, q):
+    if node not in visited:
+        visited.add(node)
+        if node in out_connection:
+            for neighbour in out_connection[node]:
+                path_prob *= q / in_connection[neighbour]
+                if path_prob >= theta:
+                    dfs(visited, out_connection, path_prob, in_connection, neighbour, theta, q)
+                    path_prob /= (q / in_connection[neighbour])
+                else:
+                    path_prob /= (q / in_connection[neighbour])
+    N_of_nodes = len(visited)
+    return N_of_nodes
